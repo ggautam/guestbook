@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>GB - About Us</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+	<!-- Header -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+			aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<a class="navbar-brand" th:href="@{${homeUrl}}">GuestBook</a>
+
+		<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+			<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+				<li class="nav-item"><a class="nav-link" th:href="@{${homeUrl}}">Home</a></li>
+				<li class="nav-item active"><a class="nav-link" th:href="@{/about}">About Us <span class="sr-only">(current)</span></a></li>
+				<li th:if="${isUserLoggedIn == true && isAdmin == true}" class="nav-item"><a class="nav-link btn btn-light" th:href="@{/admin/users}">User Lists</a></li>
+				<li th:if="${isUserLoggedIn == true && isAdmin == true}" class="nav-item ml-1"><a class="nav-link btn btn-light" th:href="@{/admin/review/invites}">Review User Invitations</a></li>
+				<li th:if="${isUserLoggedIn} == true" class="nav-item ml-1"><a class="nav-link btn btn-secondary text-light" th:href="@{/user/create/invite}">Create an invitation</a></li>
+			</ul>
+			<div class="div-inline my-2 my-lg-0">
+				<a th:if="${isUserLoggedIn} == false" class="btn btn-light" th:href="@{/login}" role="button">Login</a>
+				<a th:if="${isUserLoggedIn} == false" class="btn btn-light" th:href="@{/registration}" role="button">Sign Up</a>
+				<span th:if="${isUserLoggedIn} == true" class="font-weight-bold" th:utext="${userName}"></span>&nbsp;
+				<a th:if="${isUserLoggedIn} == true" class="btn btn-light" th:href="@{/logout}" role="button">Sign Out</a>
+			</div>
+		</div>
+	</nav>
+	<!-- Header -->
+	
+	<div class="container min-vh-100">
+		<div class="container mt-3 mb-3">
+			<h2>About Us</h2>
+			<p>Praesent dapibus, neque id cursus faucibus, tortor neque
+				egestas augue, eu vulputate magna eros eu erat. Aliquam erat
+				volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis
+				luctus, metus</p>
+			<div class="bd-callout bd-callout-warning">
+				<h5>Aliquam tincidunt mauris eu risus</h5>
+				<p>Pellentesque habitant morbi tristique senectus et netus et
+					malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat
+					vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit
+					amet quam egestas semper. Aenean ultricies mi vitae est. Mauris
+					placerat eleifend leo. Quisque sit amet est et sapien ullamcorper
+					pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae,
+					ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt
+					condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac
+					dui. Donec non enim in turpis pulvinar facilisis. Ut felis.
+					Praesent dapibus, neque id cursus faucibus, tortor neque egestas
+					augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam
+					dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>
+			</div>
+			<div class="list-group">
+				<a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">Elit non mi porta</h5>
+						<small>1 days ago</small>
+					</div>
+					<p class="mb-1">Donec id elit non mi porta gravida at eget
+						metus. Maecenas sed diam eget risus varius blandit.</p> 
+						<small>Donecid elit non mi porta.</small>
+				</a> 
+				<a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">Fames ac turpis egesta</h5>
+						<small class="text-muted">3 days ago</small>
+					</div>
+					<p class="mb-1">
+						Pellentesque habitant morbi tristique senectus et netus et
+						malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat
+						vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit
+						amet quam egestas semper.</p> 
+						<small> Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</small>
+				</a> 
+				<a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">Tempor sit amet</h5>
+						<small class="text-muted">5 days ago</small>
+					</div>
+					<p class="mb-1">Vestibulum tortor quam, feugiat vitae,
+						ultricies eget, tempor sit amet, ante. Donec eu libero sit amet
+						quam egestas semper.</p> 
+						<small class="text-muted">Tristique senectus et netus.</small>
+				</a>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Footer -->
+	<footer class="page-footer font-small bg-light" style="background-color: #e3f2fd;">
+		<div class="footer-copyright text-center py-3">
+			&copy; GuestBook 2020
+		</div>
+		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+	</footer>
+	<!-- Footer -->
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#gb-alert-div").fadeTo(2000, 500).slideUp(500, function() {
+				$("#gb-alert-div").slideUp(500);
+			});
+		});
+	</script>
+</body>
+</html>

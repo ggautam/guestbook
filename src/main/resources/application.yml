@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: guestbook
+  profiles: local-dev
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/guestdb?autoReconnect=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8&connectionCollation=utf8_general_ci
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        format_sql: true
+        generate_statistics: false
+    database: MYSQL
+    show-sql: true
+    generate-ddl: true
+  message:
+    basename: validation
+gb:
+  invitation:
+    card_path: /var/www/techm/java/gb/src/main/resources/static/images/invitations
+    db_card_path: /images/invitations
+server:
+    port: 8099
+logging:
+  config: classpath:logback-spring.xml

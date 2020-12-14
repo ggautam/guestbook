@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: guestbook
+  profiles: test
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        format_sql: true
+        generate_statistics: false
+    database: MYSQL
+    show-sql: true
+    generate-ddl: true
+  h2:
+    console:
+      enabled: true
+      path: /console
+      settings:
+        trace: false
+        web-allow-others: false
+  message:
+    basename: validation
+gb:
+  invitation:
+    card_path: /var/www/techm/java/gb/src/main/resources/static/images/test
+    db_card_path: /images/test
+server:
+    port: 8099
+logging:
+  config: classpath:logback-spring.xml
