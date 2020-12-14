@@ -28,6 +28,11 @@ import com.guestbook.task.entity.UserEntity;
 import com.guestbook.task.service.UserService;
 import com.guestbook.task.dto.GenericResponse.Status;
 
+/**
+ * User and Guest journey. 
+ * @author gaurav
+ *
+ */
 @Controller
 public class UserController {
 
@@ -39,6 +44,12 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	/**
+	 * Guest or logged-in user landing Page
+	 * 
+	 * @param errmsg 	Page access warning
+	 * @return 			View for welcome
+	 */
 	@RequestMapping(value = { "/", "/welcome" }, method = RequestMethod.GET)
 	public ModelAndView welcomePage(@RequestParam(required = false) String errmsg) {
 		logger.debug("UserController|welcomePage|In");
@@ -70,6 +81,11 @@ public class UserController {
 		return modelAndView;
 	}
 
+	/**
+	 * Site about us page
+	 * 
+	 * @return View for about
+	 */
 	@RequestMapping(value = "/about", method = RequestMethod.GET)
 	public ModelAndView aboutUsPage() {
 		logger.debug("UserController|aboutUsPage|In");
@@ -95,6 +111,11 @@ public class UserController {
 		return modelAndView;
 	}
 
+	/**
+	 * Login page
+	 * 
+	 * @return 	View for login
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView loginPage() {
 		logger.debug("UserController|loginPage|In");
@@ -109,6 +130,11 @@ public class UserController {
 		return modelAndView;
 	}
 
+	/**
+	 * Registration Page
+	 * 
+	 * @return 	View for registration
+	 */
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	public ModelAndView registrationPage() {
 		logger.debug("UserController|registrationPage|In");
@@ -125,6 +151,13 @@ public class UserController {
 		return modelAndView;
 	}
 
+	/**
+	 * Register a user to site
+	 * 
+	 * @param user          	User details to do registration
+	 * @param bindingResult 	Holds the result of a validation and binding and contains errors that may have occurred
+	 * @return 					Registration form for submission
+	 */
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
 		logger.debug("UserController|createNewUser|In user: {}", user);
@@ -150,7 +183,11 @@ public class UserController {
 		logger.debug("UserController|createNewUser|Out");
 		return modelAndView;
 	}
-
+	
+	/**
+	 * Logged-in user home page
+	 * @return	View for home
+	 */
 	@RequestMapping(value = "/user/home", method = RequestMethod.GET)
 	public ModelAndView userHomePage() {
 		logger.debug("UserController|userHomePage|In");
@@ -176,6 +213,10 @@ public class UserController {
 		return modelAndView;
 	}
 
+	/**
+	 * Page to create an invitation
+	 * @return	View for Create an invitation
+	 */
 	@RequestMapping(value = "/user/create/invite", method = RequestMethod.GET)
 	public ModelAndView createInvitePage() {
 		logger.debug("UserController|createInvitePage|In");
@@ -193,6 +234,11 @@ public class UserController {
 		return modelAndView;
 	}
 
+	/**
+	 * Create an invitation for user
+	 * @param invitation	Invite details to create
+	 * @return				Invitation form for submission
+	 */
 	@RequestMapping(value = "/user/create/invite", method = RequestMethod.POST)
 	public ModelAndView saveCreateInvite(Invitation invitation) {
 		logger.debug("UserController|saveCreateInvite|In");

@@ -20,6 +20,11 @@ import com.guestbook.task.entity.UserEntity;
 import com.guestbook.task.service.AdminService;
 import com.guestbook.task.service.UserService;
 
+/**
+ * Admin Role based journey
+ * @author gaurav
+ *
+ */
 @Controller
 public class AdminController {
 
@@ -31,6 +36,11 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 
+	/**
+	 * View all user invitation to confirm
+	 * @param userId	Filter based on user 
+	 * @return			View for confirm invite
+	 */
 	@RequestMapping(value = { "/admin/review/invites" }, method = RequestMethod.GET)
 	public ModelAndView confirmInvitation(@RequestParam(required = false) String userId) {
 		logger.debug("AdminController|confirmInvitation|In");
@@ -57,6 +67,10 @@ public class AdminController {
 		return modelAndView;
 	}
 
+	/**
+	 * Display all user registered to site
+	 * @return		View for registered user
+	 */
 	@RequestMapping(value = { "/admin/users" }, method = RequestMethod.GET)
 	public ModelAndView displayUserLists() {
 		logger.debug("AdminController|displayUserLists|In");
