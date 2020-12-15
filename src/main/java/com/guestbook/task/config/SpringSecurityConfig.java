@@ -31,6 +31,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 
+	/**
+	 * Configuring simple authorization on each URL, login form and logout
+	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.
@@ -39,6 +42,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/login").permitAll()
 				.antMatchers("/registration").permitAll()
 				.antMatchers("/user/**").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+				.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
@@ -52,7 +56,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutSuccessUrl("/").and().exceptionHandling()
 				.accessDeniedPage("/access-denied");
 	}
-	
+
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/favicon.ico", "/resources/**", "/static/**", "/css/**", "/js/**", "/images/**",

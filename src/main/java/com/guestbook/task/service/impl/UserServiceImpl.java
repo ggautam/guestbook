@@ -27,6 +27,11 @@ import com.guestbook.task.service.UserService;
 import com.guestbook.task.dto.GenericResponse;
 import com.guestbook.task.dto.GenericResponse.Status;
 
+/**
+ * Service to fetch user, create user
+ * @author gaurav
+ *
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -47,6 +52,10 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+	/**
+	 * Save registered user
+	 * @param user		User details to do register
+	 */
 	@Override
 	public void save(User user) {
 		logger.debug("UserServiceImpl|save| user: {}", user);
@@ -58,30 +67,55 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(userEntity);
 	}
 
+	/**
+	 * Get user info by email
+	 * @param email		email address to get user info
+	 * @return			user object
+	 */
 	@Override
 	public UserEntity findByEmail(String email) {
 		logger.debug("UserServiceImpl|findByEmail| email: {}", email);
 		return userRepository.findByEmail(email);
 	}
 
+	/**
+	 * Get admin user info by email
+	 * @param email			email address to get user info
+	 * @return				user object
+	 */
 	@Override
 	public UserEntity getAdminUserByEmail(String email) {
 		logger.debug("UserServiceImpl|getAdminUserByEmail| email: {}", email);
 		return userRepository.getAdminUserByEmail(email);
 	}
 
+	/**
+	 * Get user info by id
+	 * @param userId		userId to fetch user details
+	 * @return				user object
+	 */
 	@Override
 	public UserEntity findById(long userId) {
 		logger.debug("UserServiceImpl|findById| userId: {}", userId);
 		return userRepository.findById(userId);
 	}
 
+	/**
+	 * Get user info by id
+	 * @param gsm			phone number to get user info
+	 * @return				user object
+	 */
 	@Override
 	public UserEntity findByGsm(String gsm) {
 		logger.debug("UserServiceImpl|findByGsm| gsm: {}", gsm);
 		return userRepository.findByGsm(gsm);
 	}
 
+	/**
+	 * Get all invitation of specific user
+	 * @param userId		userId to fetch all created invites
+	 * @return				list of invitation object
+	 */
 	@Override
 	public List<InvitationEntity> getInvitationByUserId(long userId) {
 		logger.debug("UserServiceImpl|getInvitationByUserId| userId: {}", userId);
@@ -94,7 +128,12 @@ public class UserServiceImpl implements UserService {
 			return null;
 		}
 	}
-
+ 
+	/**
+	 * Create invite for an user
+	 * @param invite		invites details to create an invitation	
+	 * @return				GenericResponse			 
+	 */
 	@Override
 	public GenericResponse saveInvite(Invitation invite) {
 		logger.debug("UserServiceImpl|saveInvite| invite: {}", invite);
@@ -153,6 +192,12 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	/**
+	 * Create a directory
+	 * @param directoryPath			location to create
+	 * @return						created location
+	 * @throws Exception
+	 */
 	public String createDirectory(String directoryPath) throws Exception {
 		logger.debug("UserServiceImpl|createDirectory|In| directoryPath: {}", directoryPath);
 		File dir = new File(directoryPath);

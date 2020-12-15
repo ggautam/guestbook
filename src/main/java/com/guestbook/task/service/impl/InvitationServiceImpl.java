@@ -20,6 +20,13 @@ public class InvitationServiceImpl implements InvitationService {
 	@Autowired
 	private InvitationRepository invitationRepository;
 
+	/**
+	 * To approve and reject user invitation
+	 * @param inviteId		inviteId to sort list invitation
+	 * @param userId		userId to get specific
+	 * @param				status approve / reject
+	 * @return				GenericResponse
+	 */
 	@Override
 	public GenericResponse modifyInvitationStatus(String inviteId, String userId, String status) {
 		logger.debug("InvitationServiceImpl|modifyInvitationStatus| inviteId: {}, userId: {} and status: {}", inviteId,

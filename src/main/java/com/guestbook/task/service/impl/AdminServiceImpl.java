@@ -18,6 +18,11 @@ import com.guestbook.task.repository.InvitationRepository;
 import com.guestbook.task.repository.UserRepository;
 import com.guestbook.task.service.AdminService;
 
+/**
+ * Service to fetch all user, invitation info for admin user
+ * @author gaurav
+ *
+ */
 @Service
 public class AdminServiceImpl implements AdminService {
 
@@ -29,6 +34,10 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private InvitationRepository invitationRepository;
 
+	/**
+	 * Get all user created invitation
+	 * @return			List of user and invites info
+	 */
 	@Override
 	public List<UserInvitation> getUserInvitations() {
 		logger.debug("AdminServiceImpl|getUserInvitations|In");
@@ -43,6 +52,11 @@ public class AdminServiceImpl implements AdminService {
 		return userInvitation;
 	}
 
+	/**
+	 * Get specific user created invitation
+	 * @param			userId to get user and invites info 
+	 * @return			List of user and invites info
+	 */
 	@Override
 	public List<UserInvitation> getUserInvitationsByUserId(long userId) {
 		logger.debug("AdminServiceImpl|getUserInvitationsByUserId|In");
@@ -58,6 +72,11 @@ public class AdminServiceImpl implements AdminService {
 		return userInvitation;
 	}
 
+	/**
+	 * Mapped object entries to userinvitation
+	 * @param obj		Object array
+	 * @return			List of user and invites info
+	 */
 	private List<UserInvitation> mapObjectToUserInvitationList(List<Object[]> obj) {
 		logger.debug("AdminServiceImpl|mapObjectToUserInvitationList|In obj: {}", obj.size());
 		List<UserInvitation> userInvitation = new ArrayList<UserInvitation>();
@@ -87,6 +106,10 @@ public class AdminServiceImpl implements AdminService {
 		return userInvitation;
 	}
 
+	/**
+	 * Get all user info
+	 * @return			List of user info
+	 */
 	@Override
 	public List<UserEntity> getAllUsers() {
 		return userRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));

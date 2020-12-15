@@ -24,6 +24,10 @@ public class SecurityServiceImpl implements SecurityService {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
+	/**
+	 * Get email id of loggedIn user
+	 * @return			User email address
+	 */
 	@Override
 	public String findLoggedInUsername() {
 		logger.debug("SecurityServiceImpl|findLoggedInUsername|In");
@@ -37,6 +41,11 @@ public class SecurityServiceImpl implements SecurityService {
 		return user;
 	}
 
+	/**
+	 * Auto login
+	 * @param username			Email address
+	 * @param					Password
+	 */
 	@Override
 	public void autoLogin(String username, String password) {
 		logger.debug("SecurityServiceImpl|autoLogin|IN username: {}, password: {}", username, password);

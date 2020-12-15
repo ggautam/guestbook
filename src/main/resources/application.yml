@@ -22,7 +22,7 @@ spring:
     basename: validation
 gb:
   invitation:
-    card_path: /var/www/techm/java/gb/src/main/resources/static/images/invitations
+    card_path: /var/www/techm/java/guestbook/src/main/resources/static/images/invitations
     db_card_path: /images/invitations
 server:
     port: 8099
