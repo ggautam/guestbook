@@ -112,6 +112,36 @@ public class UserController {
 	}
 
 	/**
+	 * Site error page
+	 * 
+	 * @return View for error
+	 */
+	@RequestMapping(value = "/error", method = RequestMethod.GET)
+	public ModelAndView errorPage() {
+		logger.debug("UserController|errorPage|In");
+		ModelAndView modelAndView = new ModelAndView();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserEntity user = userService.findByEmail(auth.getName());
+		boolean isAdmin = false;
+		boolean isUserLoggedIn = false;
+		String userName = "";
+		String homeUrl = "/";
+		if (user != null) {
+			isUserLoggedIn = true;
+			isAdmin = user.isAdmin();
+			userName = "Hello " + user.getName() + "!";
+			homeUrl = "/user/home";
+		}
+		modelAndView.addObject("userName", userName);
+		modelAndView.addObject("isUserLoggedIn", isUserLoggedIn);
+		modelAndView.addObject("isAdmin", isAdmin);
+		modelAndView.addObject("homeUrl", homeUrl);
+		modelAndView.setViewName("error");
+		logger.debug("UserController|aboutUsPage|Out");
+		return modelAndView;
+	}
+
+	/**
 	 * Login page
 	 * 
 	 * @return 	View for login
