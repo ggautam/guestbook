@@ -46,6 +46,7 @@ import com.guestbook.task.dto.Invitation;
 import com.guestbook.task.dto.User;
 import com.guestbook.task.dto.GenericResponse.Status;
 import com.guestbook.task.entity.UserEntity;
+import com.guestbook.task.service.InvitationService;
 import com.guestbook.task.service.UserService;
 
 @RunWith(SpringRunner.class)
@@ -54,6 +55,9 @@ public class UserControllerTest {
 
 	@MockBean
 	private UserService userService;
+
+	@MockBean
+	private InvitationService invitationService;
 
 	@Autowired
 	private UserController userController;

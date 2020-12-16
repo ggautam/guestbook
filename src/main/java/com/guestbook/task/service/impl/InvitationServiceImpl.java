@@ -21,11 +21,26 @@ public class InvitationServiceImpl implements InvitationService {
 	private InvitationRepository invitationRepository;
 
 	/**
+	 * Get User Invites list
+	 * 
+	 * @param inviteId inviteId to filter invitation list
+	 * @param userId   userId to filter based on user
+	 * @return Particular user invite
+	 */
+	@Override
+	public InvitationEntity getInviteBasedOnUser(String inviteId, long userId) {
+		InvitationEntity entry = invitationRepository.getInvitationByInviteIdAndUserId(Long.parseLong(inviteId),
+				userId);
+		return entry;
+	}
+
+	/**
 	 * To approve and reject user invitation
-	 * @param inviteId		inviteId to sort list invitation
-	 * @param userId		userId to get specific
-	 * @param				status approve / reject
-	 * @return				GenericResponse
+	 * 
+	 * @param inviteId inviteId to sort list invitation
+	 * @param userId   userId to get specific
+	 * @param status   approve / reject
+	 * @return GenericResponse
 	 */
 	@Override
 	public GenericResponse modifyInvitationStatus(String inviteId, String userId, String status) {
@@ -53,6 +68,12 @@ public class InvitationServiceImpl implements InvitationService {
 			response.setMessage("Something wents wrong. please refresh and try again!");
 		}
 		return response;
+	}
+
+	@Override
+	public GenericResponse modifyInvitation(String inviteId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -37,10 +37,10 @@ public class InvitationEntity implements Serializable {
 	@JoinColumn(name = "user_id")
 	public UserEntity userEntity;
 
-	@Column(name = "message", columnDefinition = "varchar(750)")
+	@Column(name = "message", columnDefinition = "varchar(750) default NULL")
 	public String message;
 
-	@Column(name = "card", columnDefinition = "varchar(150)")
+	@Column(name = "card", columnDefinition = "varchar(150) default NULL")
 	public String card;
 
 	@Column(name = "is_approved", columnDefinition = "tinyint(1) default 0")

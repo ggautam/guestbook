@@ -36,19 +36,22 @@
 	<div class="container min-vh-100">
 		<div class="container mt-3 mb-3" th:if="${invitationLists != null}">
 			<div class="list-group">
+				<div th:if="${errmsg} == true" id="gb-alert-div" class="alert alert-danger m-3 align-items-center" role="alert">
+					No such entry found. Please contact administrator.
+				</div>
 				<h2>Your Invitation Lists</h2>
 				<a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start" 
 					th:each="invitation: ${invitationLists}">
 					<div class="d-flex w-100 justify-content-between">
-						<h5 class="mb-1">&nbsp;</h5>
+						<h5 class="mb-1"><button th:data-id="${invitation.inviteId}" type="button" class="redirect-to-modify btn btn-light btn-sm">Modify Entry</button></h5>
 						<small th:text="${#dates.format(invitation.createDateTime, 'dd MMM yyyy')}"></small>
 					</div>
-					<p class="mb-1" th:if="${invitation.card != null}">
+					<p class="mb-1" th:if="${invitation.message == null}">
 						<img th:src="${invitation.card}" alt=""
 							class="invite-image img-thumbnail" data-type="image"
 							th:data-posted="${#dates.format(invitation.createDateTime, 'dd MMM yyyy hh:mm a')}">
 					</p>
-					<p class="mb-1 invite-text" th:unless="${invitation.card != null}"
+					<p class="mb-1 invite-text" th:unless="${invitation.message == null}"
 						th:text="${#strings.abbreviate(invitation.message, 200)}"
 						th:data-posted="${#dates.format(invitation.createDateTime, 'dd MMM yyyy hh:mm a')}" data-type="text"
 						th:data-content="${invitation.message}"></p>
@@ -110,6 +113,15 @@
 				var postedDate = $(this).data("posted");
 				$('#invitePosted').html("Posted on: " + postedDate);
 				$('#dummyModal').modal('show');
+			});
+			
+			$("#gb-alert-div").fadeTo(2000, 500).slideUp(500, function() {
+				$("#gb-alert-div").slideUp(500);
+			});
+			
+			$(".redirect-to-modify").click(function() {
+				var url = location.protocol + "//" + $(location).attr('host') + "/user/modify/invite/" + $(this).data('id');
+				$(location).attr('href', url);
 			});
 		});
 	</script>

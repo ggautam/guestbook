@@ -15,16 +15,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.guestbook.task.constants.GuestBookConstants;
 import com.guestbook.task.dto.GenericResponse;
 import com.guestbook.task.dto.Invitation;
 import com.guestbook.task.dto.User;
 import com.guestbook.task.entity.InvitationEntity;
 import com.guestbook.task.entity.UserEntity;
+import com.guestbook.task.service.InvitationService;
 import com.guestbook.task.service.UserService;
 import com.guestbook.task.dto.GenericResponse.Status;
 
@@ -43,6 +46,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private InvitationService invitationService;
 
 	/**
 	 * Guest or logged-in user landing Page
@@ -219,7 +225,7 @@ public class UserController {
 	 * @return	View for home
 	 */
 	@RequestMapping(value = "/user/home", method = RequestMethod.GET)
-	public ModelAndView userHomePage() {
+	public ModelAndView userHomePage(@RequestParam(required = false) String errmsg) {
 		logger.debug("UserController|userHomePage|In");
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -232,6 +238,12 @@ public class UserController {
 		int invitationCnt = 0;
 		if (!CollectionUtils.isEmpty(invitationLists)) {
 			invitationCnt = invitationLists.size();
+		}
+		if (StringUtils.isNotBlank(errmsg)) {
+			logger.debug("UserController|welcomePage|errmsg: {}", errmsg);
+			modelAndView.addObject("errmsg", true);
+		} else {
+			modelAndView.addObject("errmsg", false);
 		}
 		modelAndView.addObject("userName", "Hello " + user.getName() + "!");
 		modelAndView.addObject("userId", user.getId());
@@ -304,6 +316,81 @@ public class UserController {
 		}
 		modelAndView.setViewName("user/create-invite");
 		logger.debug("UserController|saveCreateInvite|Out");
+		return modelAndView;
+	}
+
+	/**
+	 * Page to modify user invitation
+	 * @return	View for Create an invitation
+	 */
+	@RequestMapping(value = "/user/modify/invite/{inviteId}", method = RequestMethod.GET)
+	public ModelAndView modifyInvitePage(@PathVariable("inviteId") String inviteId) {
+		logger.debug("UserController|modifyInvitePage|In");
+		ModelAndView modelAndView = new ModelAndView();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserEntity user = userService.findByEmail(auth.getName());
+		if (user == null || StringUtils.isBlank(inviteId)) {
+			return new ModelAndView("redirect:/welcome?errmsg=1");
+		}
+		InvitationEntity entry = invitationService.getInviteBasedOnUser(inviteId, user.getId());
+		Invitation invitation = new Invitation();
+		if (entry == null) {
+			return new ModelAndView("redirect:/user/home?errmsg=2");
+		} else {
+			invitation.setInviteId(Long.toString(entry.getInviteId()));
+			invitation.setUserId(Long.toString(entry.getUserEntity().getId()));
+			invitation.setMessage(entry.getMessage());			
+		}
+		modelAndView.addObject("userName", "Hello " + user.getName() + "!");
+		modelAndView.addObject("userId", user.getId());
+		modelAndView.addObject("isAdmin", user.isAdmin);
+		modelAndView.addObject("invitation", invitation);
+		modelAndView.addObject("invite", entry);
+		modelAndView.setViewName("user/modify-invite");
+		return modelAndView;
+	}
+
+	/**
+	 * To modify user invitation
+	 * @param invitation	Invite details to create
+	 * @return				Invitation form for submission
+	 */
+	@RequestMapping(value = "/user/modify/invite/{inviteId}", method = RequestMethod.POST)
+	public ModelAndView updateInvite(@PathVariable("inviteId") String inviteId, Invitation invitation) {
+		logger.debug("UserController|updateInvite|In");
+		ModelAndView modelAndView = new ModelAndView();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserEntity user = userService.findByEmail(auth.getName());
+		modelAndView.addObject("userName", "Hello " + user.getName() + "!");
+		modelAndView.addObject("userId", user.getId());
+		modelAndView.addObject("isAdmin", user.isAdmin);
+		boolean isValidInvite = false;
+		if (invitation.getFile() != null && !invitation.getFile().isEmpty()) {
+			isValidInvite = true;
+		}
+
+		if (!isValidInvite && StringUtils.isNotBlank(invitation.getMessage())) {
+			isValidInvite = true;
+		}
+
+		if (!isValidInvite) {
+			logger.error("UserController|updateInvite|Invalid input");
+			modelAndView.addObject("errorMessage", "Please provide valid Invitation Card or message");
+			modelAndView.addObject("isError", true);
+		} else {
+			GenericResponse inviteResponse = userService.saveInvite(invitation);
+			if (inviteResponse.getStatus() == Status.ERROR) {
+				modelAndView.addObject("errorMessage", inviteResponse.getMessage());
+			} else {
+				modelAndView.addObject("successMessage", inviteResponse.getMessage());
+			}
+			InvitationEntity entry = invitationService.getInviteBasedOnUser(inviteId, user.getId());
+			modelAndView.addObject("invitation", invitation);
+			modelAndView.addObject("invite", entry);
+			logger.debug("UserController|updateInvite|inviteResponse: {}", inviteResponse);
+		}
+		modelAndView.setViewName("user/modify-invite");
+		logger.debug("UserController|updateInvite|Out");
 		return modelAndView;
 	}
 

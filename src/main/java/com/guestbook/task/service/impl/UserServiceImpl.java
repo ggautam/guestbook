@@ -141,8 +141,20 @@ public class UserServiceImpl implements UserService {
 		GenericResponse response = new GenericResponse();
 		response.setStatus(Status.ERROR);
 		InvitationEntity invitationEntity = new InvitationEntity();
+		boolean isUpdate = false;
+		boolean isValidEntry = true;
 		UserEntity userEntity = userRepository.findById(Long.parseLong(invite.getUserId()));
 		if (userEntity != null) {
+			if(StringUtils.isNotBlank(invite.getInviteId())) {
+				 invitationEntity = invitationRepository.getInvitationByInviteIdAndUserId(Long.parseLong(invite.getInviteId()), userEntity.getId());
+				 if(invitationEntity != null) {
+					 isUpdate = true;
+					invitationEntity.setCard(null);
+					invitationEntity.setMessage(null);
+				 } else {
+					 isValidEntry = false;
+				 }
+			}
 			invitationEntity.setUserEntity(userEntity);
 
 			if (invite.getFile() != null && !invite.getFile().isEmpty()) {
@@ -175,11 +187,15 @@ public class UserServiceImpl implements UserService {
 				isValid = true;
 			}
 
-			if (isValid) {
+			if (isValid && isValidEntry) {
 				logger.debug("UserServiceImpl|saveInvite| invitationEntity: {}", invitationEntity);
 				invitationRepository.save(invitationEntity);
 				response.setStatus(Status.SUCCESS);
-				response.setMessage("Yayy! your invitation created!");
+				if(isUpdate) {
+					response.setMessage("Invitation modified successfully!");
+				} else {
+					response.setMessage("Yayy! your invitation created!");
+				}
 			} else {
 				logger.debug("UserServiceImpl|saveInvite| Invalid invitation");
 				response.setMessage("Please provide valid Invitation Card or message");
