@@ -277,7 +277,7 @@ public class UserController {
 	}
 
 	/**
-	 * Create an invitation for user
+	 * Create an entry for user
 	 * @param invitation	Invite details to create
 	 * @return				Invitation form for submission
 	 */
@@ -321,7 +321,7 @@ public class UserController {
 
 	/**
 	 * Page to modify user invitation
-	 * @return	View for Create an invitation
+	 * @return	View for update an entry
 	 */
 	@RequestMapping(value = "/user/modify/invite/{inviteId}", method = RequestMethod.GET)
 	public ModelAndView modifyInvitePage(@PathVariable("inviteId") String inviteId) {
@@ -352,7 +352,7 @@ public class UserController {
 
 	/**
 	 * To modify user invitation
-	 * @param invitation	Invite details to create
+	 * @param invitation	Invite details to update
 	 * @return				Invitation form for submission
 	 */
 	@RequestMapping(value = "/user/modify/invite/{inviteId}", method = RequestMethod.POST)

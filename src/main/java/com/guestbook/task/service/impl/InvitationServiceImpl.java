@@ -70,10 +70,4 @@ public class InvitationServiceImpl implements InvitationService {
 		return response;
 	}
 
-	@Override
-	public GenericResponse modifyInvitation(String inviteId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

@@ -45,6 +45,7 @@ import com.guestbook.task.dto.GenericResponse;
 import com.guestbook.task.dto.Invitation;
 import com.guestbook.task.dto.User;
 import com.guestbook.task.dto.GenericResponse.Status;
+import com.guestbook.task.entity.InvitationEntity;
 import com.guestbook.task.entity.UserEntity;
 import com.guestbook.task.service.InvitationService;
 import com.guestbook.task.service.UserService;
@@ -181,14 +182,9 @@ public class UserControllerTest {
 	@Ignore
 	public void testUserLogin() throws Exception {
 		HttpSession session = mockMvc
-				.perform(post("/login")
-						.param("email", "gg00483532@techmahindra.com").param("password", "Test@1234"))
-				.andDo(print())
-				.andExpect(status().isMovedTemporarily())
-				.andExpect(redirectedUrl("/user/home"))
-				.andReturn()
-				.getRequest()
-				.getSession();
+				.perform(post("/login").param("email", "gg00483532@techmahindra.com").param("password", "Test@1234"))
+				.andDo(print()).andExpect(status().isMovedTemporarily()).andExpect(redirectedUrl("/user/home"))
+				.andReturn().getRequest().getSession();
 		request.setSession(session);
 		SecurityContext securityContext = (SecurityContext) session
 				.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
@@ -250,6 +246,36 @@ public class UserControllerTest {
 		Assert.assertNotNull(result);
 	}
 
+	@Test
+	@WithMockUser("gg00483532@techmahindra.com")
+	public void modifyInvitePageTestWithMockUser() throws Exception {
+		UserEntity UserEntity = this.sampleUserEntity();
+		InvitationEntity invitationEntity = this.sampleInvitationEntity();
+		Mockito.when(userService.findByEmail(Mockito.anyString())).thenReturn(UserEntity);
+		Mockito.when(invitationService.getInviteBasedOnUser(Mockito.anyString(), Mockito.anyLong()))
+				.thenReturn(invitationEntity);
+		MvcResult result = mockMvc.perform(get("/user/modify/invite/1")).andDo(print())
+				.andExpect(view().name("user/modify-invite")).andReturn();
+		Assert.assertNotNull(result);
+	}
+
+	@Test
+	@WithMockUser("gg00483532@techmahindra.com")
+	public void modifyCreateInviteTest() throws Exception {
+		UserEntity userEntity = this.sampleUserEntity();
+		InvitationEntity invitationEntity = this.sampleInvitationEntity();
+		Invitation invitation = this.sampleInvitation();
+		invitation.setInviteId("1");
+		GenericResponse response = this.sampleGenericResponse();
+		Mockito.when(userService.findByEmail(Mockito.anyString())).thenReturn(userEntity);
+		Mockito.when(userService.saveInvite(Mockito.any(Invitation.class))).thenReturn(response);
+		Mockito.when(invitationService.getInviteBasedOnUser(Mockito.anyString(), Mockito.anyLong()))
+				.thenReturn(invitationEntity);
+		MvcResult result = mockMvc.perform(post("/user/modify/invite/1").flashAttr("invitation", invitation))
+				.andReturn();
+		Assert.assertNotNull(result);
+	}
+
 	public GenericResponse sampleGenericResponse() {
 		GenericResponse response = new GenericResponse();
 		response.setStatus(Status.SUCCESS);
@@ -285,6 +311,25 @@ public class UserControllerTest {
 		user.setCreateDateTime(new Date());
 
 		return user;
+	}
+
+	public InvitationEntity sampleInvitationEntity() {
+		UserEntity user = new UserEntity();
+		user.setId(1);
+		user.setName("Gaurav");
+		user.setEmail("gg00483532@techmahindra.com");
+		user.setAdmin(false);
+		user.setGsm("9916386581");
+		user.setPassword("Test@1234");
+		user.setCreateDateTime(new Date());
+
+		InvitationEntity invitation = new InvitationEntity();
+		invitation.setInviteId(1);
+		invitation.setUserEntity(user);
+		invitation.setMessage("This is test. Please ignore");
+		invitation.setCreateDateTime(new Date());
+
+		return invitation;
 	}
 
 	@After

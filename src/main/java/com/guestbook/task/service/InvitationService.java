@@ -8,6 +8,4 @@ public interface InvitationService {
 	InvitationEntity getInviteBasedOnUser(String inviteId, long userId);
 
 	GenericResponse modifyInvitationStatus(String inviteId, String userId, String status);
-
-	GenericResponse modifyInvitation(String inviteId);
 }
