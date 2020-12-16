@@ -45,7 +45,6 @@ run this command in the command line:
 ```
 mvn spring-boot:run
 ```
-```
 
 ## In case you find a bug/suggested improvement for Spring GuestBook
 Our issue tracker is available here: https://github.com/ggautam/guestbook/issues
