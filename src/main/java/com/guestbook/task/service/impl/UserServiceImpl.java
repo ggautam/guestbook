@@ -151,6 +151,7 @@ public class UserServiceImpl implements UserService {
 					 isUpdate = true;
 					invitationEntity.setCard(null);
 					invitationEntity.setMessage(null);
+					invitationEntity.setApproved(false);
 				 } else {
 					 isValidEntry = false;
 				 }

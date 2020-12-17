@@ -25,6 +25,7 @@ gb:
     card_path: /var/www/techm/java/guestbook/src/main/resources/static/images/invitations
     db_card_path: /images/invitations
 server:
-    port: 8099
+  port: 8099
+  max-http-header-size: 64KB
 logging:
   config: classpath:logback-spring.xml

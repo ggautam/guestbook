@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>GB - Home</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+	<div th:replace="fragments/header :: header"> 
+		This header content is going to be replaced.
+	</div>
+	<div class="container" layout:fragment="content"></div>
+	<footer th:insert="fragments/footer :: footer" class="page-footer font-small bg-light" style="background-color: #e3f2fd;">
+		This content will remain, but other content will be inserted after it.
+	</footer>
+	<div class="container" layout:fragment="modeldialog"></div>
+	<script type="text/javascript" layout:fragment="pagescript"></script>
+</body>
+</html>

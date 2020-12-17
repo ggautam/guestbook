@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.guestbook.task.constants.GuestBookConstants;
 import com.guestbook.task.dto.GenericResponse;
 import com.guestbook.task.dto.Invitation;
 import com.guestbook.task.dto.User;
@@ -82,6 +81,7 @@ public class UserController {
 		modelAndView.addObject("isUserLoggedIn", isUserLoggedIn);
 		modelAndView.addObject("isAdmin", isAdmin);
 		modelAndView.addObject("homeUrl", homeUrl);
+		modelAndView.addObject("currPage", "welcome");
 		modelAndView.setViewName("welcome");
 		logger.debug("UserController|welcomePage|Out");
 		return modelAndView;
@@ -97,21 +97,24 @@ public class UserController {
 		logger.debug("UserController|aboutUsPage|In");
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserEntity user = userService.findByEmail(auth.getName());
 		boolean isAdmin = false;
 		boolean isUserLoggedIn = false;
 		String userName = "";
 		String homeUrl = "/";
-		if (user != null) {
-			isUserLoggedIn = true;
-			isAdmin = user.isAdmin();
-			userName = "Hello " + user.getName() + "!";
-			homeUrl = "/user/home";
+		if(auth != null && StringUtils.isNotBlank(auth.getName())) {
+			UserEntity user = userService.findByEmail(auth.getName());
+			if (user != null) {
+				isUserLoggedIn = true;
+				isAdmin = user.isAdmin();
+				userName = "Hello " + user.getName() + "!";
+				homeUrl = "/user/home";
+			}
 		}
 		modelAndView.addObject("userName", userName);
 		modelAndView.addObject("isUserLoggedIn", isUserLoggedIn);
 		modelAndView.addObject("isAdmin", isAdmin);
 		modelAndView.addObject("homeUrl", homeUrl);
+		modelAndView.addObject("currPage", "about");
 		modelAndView.setViewName("about");
 		logger.debug("UserController|aboutUsPage|Out");
 		return modelAndView;
@@ -142,6 +145,7 @@ public class UserController {
 		modelAndView.addObject("isUserLoggedIn", isUserLoggedIn);
 		modelAndView.addObject("isAdmin", isAdmin);
 		modelAndView.addObject("homeUrl", homeUrl);
+		modelAndView.addObject("currPage", "error");
 		modelAndView.setViewName("error");
 		logger.debug("UserController|aboutUsPage|Out");
 		return modelAndView;
@@ -161,6 +165,11 @@ public class UserController {
 		if (user != null) {
 			return new ModelAndView("redirect:/user/home");
 		}
+		modelAndView.addObject("userName", "");
+		modelAndView.addObject("isUserLoggedIn", false);
+		modelAndView.addObject("isAdmin", false);
+		modelAndView.addObject("homeUrl", "/");
+		modelAndView.addObject("currPage", "login");
 		modelAndView.setViewName("login");
 		logger.debug("UserController|loginPage|Out");
 		return modelAndView;
@@ -182,6 +191,11 @@ public class UserController {
 		}
 		UserEntity user = new UserEntity();
 		modelAndView.addObject("user", user);
+		modelAndView.addObject("userName", "");
+		modelAndView.addObject("isUserLoggedIn", false);
+		modelAndView.addObject("isAdmin", false);
+		modelAndView.addObject("homeUrl", "/");
+		modelAndView.addObject("currPage", "registration");
 		modelAndView.setViewName("registration");
 		logger.debug("UserController|registrationPage|Out");
 		return modelAndView;
@@ -216,6 +230,11 @@ public class UserController {
 			modelAndView.addObject("user", new User());
 			modelAndView.setViewName("registration");
 		}
+		modelAndView.addObject("userName", "");
+		modelAndView.addObject("isUserLoggedIn", false);
+		modelAndView.addObject("isAdmin", false);
+		modelAndView.addObject("homeUrl", "/");
+		modelAndView.addObject("currPage", "registration");
 		logger.debug("UserController|createNewUser|Out");
 		return modelAndView;
 	}
@@ -231,8 +250,13 @@ public class UserController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserEntity user = userService.findByEmail(auth.getName());
 		List<InvitationEntity> invitationLists = new ArrayList<InvitationEntity>();
+		boolean isUserLoggedIn = false;
+		String homeUrl = "/";
 		if (user == null) {
 			return new ModelAndView("redirect:/welcome?errmsg=1");
+		} else {
+			isUserLoggedIn = true;
+			homeUrl = "/user/home";
 		}
 		invitationLists = userService.getInvitationByUserId(user.getId());
 		int invitationCnt = 0;
@@ -248,8 +272,11 @@ public class UserController {
 		modelAndView.addObject("userName", "Hello " + user.getName() + "!");
 		modelAndView.addObject("userId", user.getId());
 		modelAndView.addObject("isAdmin", user.isAdmin);
+		modelAndView.addObject("isUserLoggedIn", isUserLoggedIn);
+		modelAndView.addObject("homeUrl", homeUrl);
 		modelAndView.addObject("invitationCount", invitationCnt);
 		modelAndView.addObject("invitationLists", invitationLists);
+		modelAndView.addObject("currPage", "welcome");
 		modelAndView.setViewName("user/home");
 		logger.debug("UserController|userHomePage|Out");
 		return modelAndView;
@@ -265,12 +292,20 @@ public class UserController {
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserEntity user = userService.findByEmail(auth.getName());
+		boolean isUserLoggedIn = false;
+		String homeUrl = "/";
 		if (user == null) {
 			return new ModelAndView("redirect:/welcome?errmsg=1");
+		} else {
+			isUserLoggedIn = true;
+			homeUrl = "/user/home";
 		}
+		modelAndView.addObject("isUserLoggedIn", isUserLoggedIn);
+		modelAndView.addObject("homeUrl", homeUrl);
 		modelAndView.addObject("userName", "Hello " + user.getName() + "!");
 		modelAndView.addObject("userId", user.getId());
 		modelAndView.addObject("isAdmin", user.isAdmin);
+		modelAndView.addObject("currPage", "createInvite");
 		modelAndView.setViewName("user/create-invite");
 		logger.debug("UserController|createInvitePage|Out");
 		return modelAndView;
@@ -287,6 +322,8 @@ public class UserController {
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserEntity user = userService.findByEmail(auth.getName());
+		modelAndView.addObject("isUserLoggedIn", true);
+		modelAndView.addObject("homeUrl", "/user/home");
 		modelAndView.addObject("userName", "Hello " + user.getName() + "!");
 		modelAndView.addObject("userId", user.getId());
 		modelAndView.addObject("isAdmin", user.isAdmin);
@@ -314,6 +351,7 @@ public class UserController {
 			modelAndView.addObject("invitation", new Invitation());
 			logger.debug("UserController|saveCreateInvite|inviteResponse: {}", inviteResponse);
 		}
+		modelAndView.addObject("currPage", "createInvite");
 		modelAndView.setViewName("user/create-invite");
 		logger.debug("UserController|saveCreateInvite|Out");
 		return modelAndView;
@@ -329,8 +367,13 @@ public class UserController {
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserEntity user = userService.findByEmail(auth.getName());
+		boolean isUserLoggedIn = false;
+		String homeUrl = "/";
 		if (user == null || StringUtils.isBlank(inviteId)) {
 			return new ModelAndView("redirect:/welcome?errmsg=1");
+		} else {
+			isUserLoggedIn = true;
+			homeUrl = "/user/home";
 		}
 		InvitationEntity entry = invitationService.getInviteBasedOnUser(inviteId, user.getId());
 		Invitation invitation = new Invitation();
@@ -341,11 +384,14 @@ public class UserController {
 			invitation.setUserId(Long.toString(entry.getUserEntity().getId()));
 			invitation.setMessage(entry.getMessage());			
 		}
+		modelAndView.addObject("isUserLoggedIn", isUserLoggedIn);
+		modelAndView.addObject("homeUrl", homeUrl);
 		modelAndView.addObject("userName", "Hello " + user.getName() + "!");
 		modelAndView.addObject("userId", user.getId());
 		modelAndView.addObject("isAdmin", user.isAdmin);
 		modelAndView.addObject("invitation", invitation);
 		modelAndView.addObject("invite", entry);
+		modelAndView.addObject("currPage", "modifyInvite");
 		modelAndView.setViewName("user/modify-invite");
 		return modelAndView;
 	}
@@ -361,6 +407,8 @@ public class UserController {
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserEntity user = userService.findByEmail(auth.getName());
+		modelAndView.addObject("isUserLoggedIn", true);
+		modelAndView.addObject("homeUrl", "/user/home");
 		modelAndView.addObject("userName", "Hello " + user.getName() + "!");
 		modelAndView.addObject("userId", user.getId());
 		modelAndView.addObject("isAdmin", user.isAdmin);
@@ -389,6 +437,7 @@ public class UserController {
 			modelAndView.addObject("invite", entry);
 			logger.debug("UserController|updateInvite|inviteResponse: {}", inviteResponse);
 		}
+		modelAndView.addObject("currPage", "modifyInvite");
 		modelAndView.setViewName("user/modify-invite");
 		logger.debug("UserController|updateInvite|Out");
 		return modelAndView;

@@ -1,0 +1,28 @@
+<!-- Header -->
+<nav th:fragment="header" class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+		aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<a class="navbar-brand" th:href="@{${homeUrl}}">GuestBook</a>
+
+	<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+		<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+			<li th:class="${currPage == 'welcome' OR currPage == 'home' ? 'nav-item active' : 'nav-item'}">
+				<a th:if="${isUserLoggedIn} == true" class="nav-link" th:href="@{/user/home}">Home <span th:if="${currPage == 'welcome' OR currPage == 'home'}" class="sr-only">(current)</span></a>
+				<a th:unless="${isUserLoggedIn} == true" class="nav-link" th:href="@{${homeUrl}}">Home <span th:if="${currPage == 'welcome' OR currPage == 'home'}" class="sr-only">(current)</span></a>
+			</li>
+			<li th:class="${currPage == 'about' ? 'nav-item active' : 'nav-item'}"><a class="nav-link" th:href="@{/about}">About Us <span th:if="${currPage == 'about'}" class="sr-only">(current)</span></a></li>
+			<li th:if="${isUserLoggedIn == true && isAdmin == true}" th:class="${currPage == 'userDetails' ? 'nav-item active' : 'nav-item'}"><a class="nav-link btn btn-light" th:href="@{/admin/users}">User Lists <span th:if="${currPage == 'userDetails'}" class="sr-only">(current)</span></a></li>
+			<li th:if="${isUserLoggedIn == true && isAdmin == true}" th:class="${currPage == 'validateInvite' ? 'nav-item ml-1 active' : 'nav-item ml-1'}"><a class="nav-link btn btn-light" th:href="@{/admin/review/invites}">Review User Entry <span th:if="${currPage == 'validateInvite'}" class="sr-only">(current)</span></a></li>
+			<li th:if="${isUserLoggedIn} == true" th:class="${currPage == 'createInvite' ? 'nav-item ml-1 active' : 'nav-item ml-1'}"><a th:class="${currPage == 'createInvite' ? 'nav-link btn btn-secondary text-light active' : 'nav-link btn btn-secondary text-light'}" th:href="@{/user/create/invite}">Create an entry <span th:if="${currPage == 'createInvite'}" class="sr-only">(current)</span></a></li>
+		</ul>
+		<div class="div-inline my-2 my-lg-0">
+			<a th:if="${isUserLoggedIn} == false" th:class="${currPage == 'login' ? 'btn btn-secondary' : 'btn btn-light'}" th:href="@{/login}" role="button">Login</a>
+			<a th:if="${isUserLoggedIn} == false" th:class="${currPage == 'registration' ? 'btn btn-secondary' : 'btn btn-light'}"  th:href="@{/registration}" role="button">Sign Up</a>
+			<span th:if="${isUserLoggedIn} == true" class="font-weight-bold" th:utext="${userName}"></span>&nbsp;
+			<a th:if="${isUserLoggedIn} == true" class="btn btn-light" th:href="@{/logout}" role="button">Sign Out</a>
+		</div>
+	</div>
+</nav>
+<!-- Header -->

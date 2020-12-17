@@ -47,9 +47,14 @@ public class AdminController {
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserEntity user = userService.getAdminUserByEmail(auth.getName());
+		boolean isUserLoggedIn = false;
+		String homeUrl = "/";
 		if (user == null) {
 			logger.debug("AdminController|displayUserLists|Invalid Access. Redirected to Home Page");
 			return new ModelAndView("redirect:/user/home");
+		} else {
+			isUserLoggedIn = true;
+			homeUrl = "/user/home";
 		}
 		List<UserInvitation> gbData = new ArrayList<UserInvitation>();
 		if (StringUtils.isNotBlank(userId)) {
@@ -62,6 +67,9 @@ public class AdminController {
 		modelAndView.addObject("userId", user.getId());
 		modelAndView.addObject("isAdmin", user.isAdmin);
 		modelAndView.addObject("gbData", gbData);
+		modelAndView.addObject("isUserLoggedIn", isUserLoggedIn);
+		modelAndView.addObject("homeUrl", homeUrl);
+		modelAndView.addObject("currPage", "validateInvite");
 		modelAndView.setViewName("admin/validate-invites");
 		logger.debug("AdminController|confirmInvitation|Out");
 		return modelAndView;
@@ -77,15 +85,23 @@ public class AdminController {
 		ModelAndView modelAndView = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserEntity user = userService.getAdminUserByEmail(auth.getName());
+		boolean isUserLoggedIn = false;
+		String homeUrl = "/";
 		if (user == null) {
 			logger.debug("AdminController|displayUserLists|Invalid User. Redirected to Home Page");
 			return new ModelAndView("redirect:/user/home");
+		} else {
+			isUserLoggedIn = true;
+			homeUrl = "/user/home";
 		}
 		List<UserEntity> userData = adminService.getAllUsers();
 		modelAndView.addObject("userName", "Hello " + user.getName() + "!");
 		modelAndView.addObject("userId", user.getId());
 		modelAndView.addObject("isAdmin", user.isAdmin);
 		modelAndView.addObject("userData", userData);
+		modelAndView.addObject("isUserLoggedIn", isUserLoggedIn);
+		modelAndView.addObject("homeUrl", homeUrl);
+		modelAndView.addObject("currPage", "userDetails");
 		modelAndView.setViewName("admin/user-details");
 		return modelAndView;
 	}
