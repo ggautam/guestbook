@@ -48,7 +48,7 @@ public class InvitationServiceImplTest {
 		UserEntity user = new UserEntity();
 		user.setId(1);
 		user.setName("Gaurav");
-		user.setEmail("gg00483532@techmahindra.com");
+		user.setEmail("gautam.gaurav@hotmail.com");
 		user.setAdmin(false);
 		user.setGsm("9916386581");
 		user.setPassword("Test@1234");

@@ -94,7 +94,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	@WithMockUser("gg00483532@techmahindra.com")
+	@WithMockUser("gautam.gaurav@hotmail.com")
 	public void welcomePageTestWithMockUser() throws Exception {
 		UserEntity UserEntity = this.sampleUserEntity();
 		Mockito.when(userService.findByEmail(Mockito.anyString())).thenReturn(UserEntity);
@@ -182,7 +182,7 @@ public class UserControllerTest {
 	@Ignore
 	public void testUserLogin() throws Exception {
 		HttpSession session = mockMvc
-				.perform(post("/login").param("email", "gg00483532@techmahindra.com").param("password", "Test@1234"))
+				.perform(post("/login").param("email", "gautam.gaurav@hotmail.com").param("password", "Test@1234"))
 				.andDo(print()).andExpect(status().isMovedTemporarily()).andExpect(redirectedUrl("/user/home"))
 				.andReturn().getRequest().getSession();
 		request.setSession(session);
@@ -207,7 +207,7 @@ public class UserControllerTest {
 		Mockito.when(userService.findByEmail(Mockito.anyString())).thenReturn(null);
 		doNothing().when(userService).save(Mockito.any(User.class));
 		mockMvc.perform(post("/registration").contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("name", "GauravG").param("email", "gg00483532@techmahindra.com").param("gsm", "9876543210")
+				.param("name", "GauravG").param("email", "gautam.gaurav@hotmail.com").param("gsm", "9876543210")
 				.param("password", "Test@1234")).andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.model().hasNoErrors())
 				.andExpect(MockMvcResultMatchers.model().attributeExists("user"))
@@ -215,7 +215,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	@WithMockUser("gg00483532@techmahindra.com")
+	@WithMockUser("gautam.gaurav@hotmail.com")
 	public void userHomePageTestWithMockUser() throws Exception {
 		UserEntity UserEntity = this.sampleUserEntity();
 		Mockito.when(userService.findByEmail(Mockito.anyString())).thenReturn(UserEntity);
@@ -225,7 +225,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	@WithMockUser("gg00483532@techmahindra.com")
+	@WithMockUser("gautam.gaurav@hotmail.com")
 	public void createInvitePageTestWithMockUser() throws Exception {
 		UserEntity UserEntity = this.sampleUserEntity();
 		Mockito.when(userService.findByEmail(Mockito.anyString())).thenReturn(UserEntity);
@@ -235,7 +235,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	@WithMockUser("gg00483532@techmahindra.com")
+	@WithMockUser("gautam.gaurav@hotmail.com")
 	public void saveCreateInviteTest() throws Exception {
 		UserEntity userEntity = this.sampleUserEntity();
 		Invitation invitation = this.sampleInvitation();
@@ -247,7 +247,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	@WithMockUser("gg00483532@techmahindra.com")
+	@WithMockUser("gautam.gaurav@hotmail.com")
 	public void modifyInvitePageTestWithMockUser() throws Exception {
 		UserEntity UserEntity = this.sampleUserEntity();
 		InvitationEntity invitationEntity = this.sampleInvitationEntity();
@@ -260,7 +260,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	@WithMockUser("gg00483532@techmahindra.com")
+	@WithMockUser("gautam.gaurav@hotmail.com")
 	public void modifyCreateInviteTest() throws Exception {
 		UserEntity userEntity = this.sampleUserEntity();
 		InvitationEntity invitationEntity = this.sampleInvitationEntity();
@@ -293,7 +293,7 @@ public class UserControllerTest {
 	public User sampleUser() {
 		User user = new User();
 		user.setName("Gaurav");
-		user.setEmail("gg00483532@techmahindra.com");
+		user.setEmail("gautam.gaurav@hotmail.com");
 		user.setAdmin(false);
 		user.setGsm("9916386581");
 		user.setPassword("Test@1234");
@@ -304,7 +304,7 @@ public class UserControllerTest {
 		UserEntity user = new UserEntity();
 		user.setId(1);
 		user.setName("Gaurav");
-		user.setEmail("gg00483532@techmahindra.com");
+		user.setEmail("gautam.gaurav@hotmail.com");
 		user.setAdmin(true);
 		user.setGsm("9916386581");
 		user.setPassword("Test@1234");
@@ -317,7 +317,7 @@ public class UserControllerTest {
 		UserEntity user = new UserEntity();
 		user.setId(1);
 		user.setName("Gaurav");
-		user.setEmail("gg00483532@techmahindra.com");
+		user.setEmail("gautam.gaurav@hotmail.com");
 		user.setAdmin(false);
 		user.setGsm("9916386581");
 		user.setPassword("Test@1234");

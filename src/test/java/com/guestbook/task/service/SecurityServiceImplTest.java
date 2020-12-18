@@ -36,7 +36,7 @@ public class SecurityServiceImplTest {
 	}
 
 	@Test
-	@WithMockUser("gg00483532@techmahindra.com")
+	@WithMockUser("gautam.gaurav@hotmail.com")
 	public void findLoggedInUsernameTest() throws Exception {
 		String response = securityServiceImpl.findLoggedInUsername();
 		Assert.assertNotNull(response);
@@ -45,7 +45,7 @@ public class SecurityServiceImplTest {
 	@Test
 	@Ignore
 	public void autoLoginTest() throws Exception {
-		securityServiceImpl.autoLogin("gg00483532@techmahindra.com", "Test@1234");
+		securityServiceImpl.autoLogin("gautam.gaurav@hotmail.com", "Test@1234");
 	}
 
 	@After

@@ -57,7 +57,7 @@ public class UserDetailsServiceImplTest {
 		UserEntity user = new UserEntity();
 		user.setId(1);
 		user.setName("Gaurav");
-		user.setEmail("gg00483532@techmahindra.com");
+		user.setEmail("gautam.gaurav@hotmail.com");
 		user.setAdmin(true);
 		user.setGsm("9916386581");
 		user.setPassword("Test@1234");

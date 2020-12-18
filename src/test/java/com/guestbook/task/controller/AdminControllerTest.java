@@ -56,7 +56,7 @@ public class AdminControllerTest {
 	}
 
 	@Test
-	@WithMockUser("gg00483532@techmahindra.com")
+	@WithMockUser("gautam.gaurav@hotmail.com")
 	public void confirmInvitationTest() throws Exception {
 		UserEntity UserEntity = this.sampleUserEntity();
 		List<UserInvitation> gbData = this.sampleUserInvitation();
@@ -68,7 +68,7 @@ public class AdminControllerTest {
 	}
 
 	@Test
-	@WithMockUser("gg00483532@techmahindra.com")
+	@WithMockUser("gautam.gaurav@hotmail.com")
 	public void confirmInvitationTestWithUserId() throws Exception {
 		UserEntity UserEntity = this.sampleUserEntity();
 		List<UserInvitation> gbData = this.sampleUserInvitation();
@@ -81,7 +81,7 @@ public class AdminControllerTest {
 	}
 
 	@Test
-	@WithMockUser("gg00483532@techmahindra.com")
+	@WithMockUser("gautam.gaurav@hotmail.com")
 	public void displayUserListsTest() throws Exception {
 		UserEntity UserEntity = this.sampleUserEntity();
 		List<UserEntity> userList = this.sampleUserEntityList();
@@ -96,7 +96,7 @@ public class AdminControllerTest {
 		UserEntity user = new UserEntity();
 		user.setId(1);
 		user.setName("Gaurav");
-		user.setEmail("gg00483532@techmahindra.com");
+		user.setEmail("gautam.gaurav@hotmail.com");
 		user.setAdmin(true);
 		user.setGsm("9916386581");
 		user.setPassword("Test@1234");
@@ -110,7 +110,7 @@ public class AdminControllerTest {
 		UserEntity user = new UserEntity();
 		user.setId(1);
 		user.setName("Gaurav");
-		user.setEmail("gg00483532@techmahindra.com");
+		user.setEmail("gautam.gaurav@hotmail.com");
 		user.setAdmin(true);
 		user.setGsm("9916386581");
 		user.setPassword("Test@1234");
@@ -124,7 +124,7 @@ public class AdminControllerTest {
 		UserInvitation userInvite = new UserInvitation();
 		userInvite.setInvite_id(1);
 		userInvite.setMessage("This is test. Please ignore");
-		userInvite.setEmail("gg00483532@techmahindra.com");
+		userInvite.setEmail("gautam.gaurav@hotmail.com");
 		userInvite.setName("Gaurav");
 		userInvite.setUid(1);
 		userInvite.setGsm("9876543210");
@@ -138,7 +138,7 @@ public class AdminControllerTest {
 		UserEntity user = new UserEntity();
 		user.setId(1);
 		user.setName("Gaurav");
-		user.setEmail("gg00483532@techmahindra.com");
+		user.setEmail("gautam.gaurav@hotmail.com");
 		user.setAdmin(false);
 		user.setGsm("9916386581");
 		user.setPassword("Test@1234");
