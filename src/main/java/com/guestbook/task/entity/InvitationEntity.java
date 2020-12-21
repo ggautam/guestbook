@@ -44,7 +44,7 @@ public class InvitationEntity implements Serializable {
 
 	@Lob
 	@Column(name = "event_image", nullable = true, columnDefinition = "mediumblob")
-	private byte[] eventImage;
+	public byte[] eventImage;
 
 	@Column(name = "is_active", columnDefinition = "tinyint(1) default 1")
 	public boolean isActive = true;

@@ -19,7 +19,7 @@
 					 	<label for="validationCard">Entry Card</label>
 					 	<div class="input-group">
 							<div class="custom-file">
-								<input type="file" class="custom-file-input" id="file" name="file" th:disabled="${invite.card != null ? 'false' : 'true'}">
+								<input type="file" class="custom-file-input" id="file" name="file" th:disabled="${invite.eventImage == null ? 'true' : 'false'}">
 								<label class="custom-file-label" for="file">Choose file</label>
 							</div>
 						</div>
@@ -39,7 +39,7 @@
 		</div>
 		<div class="col-md-7 col-lg-6 ml-auto" th:if="${invite.message == null}">
 			<h1 class="text-center pb-5 text-secondary">Your entry card</h1>
-			<img th:src="@{'data:image/jpg;base64,' + *{T(org.springframework.util.Base64Utils).encodeToString(invitation.eventImage)}}" alt="" class="img-fluid mb-3 d-none d-md-block">
+			<img th:src="@{'data:image/jpg;base64,' + *{T(org.springframework.util.Base64Utils).encodeToString(invite.eventImage)}}" alt="" class="img-fluid mb-3 d-none d-md-block">
 		</div>
 		<div class="col-md-7 col-lg-6 ml-auto" th:unless="${invite.message == null}">
 			<h1 class="text-center pb-5 text-secondary">Modify your entry</h1>
