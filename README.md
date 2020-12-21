@@ -53,8 +53,6 @@ Email: admin@gbtest.com
 Password: Test@1234
 ```
 
-and
-
 Guest
 ```
 Email: guest@gbtest.com
