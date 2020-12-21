@@ -7,6 +7,8 @@ spring:
     url: jdbc:mysql://localhost:3306/guestdb?autoReconnect=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8&connectionCollation=utf8_general_ci
     username: root
     password: root
+    initialization-mode: always
+    platform: mysql
   jpa:
     hibernate:
       ddl-auto: update

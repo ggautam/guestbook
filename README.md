@@ -46,5 +46,20 @@ run this command in the command line:
 mvn spring-boot:run -Dspring-boot.run.profiles=local-dev
 ```
 
+## Login test credentials for GuestBook
+Admin
+```
+Email: admin@gbtest.com
+Password: Test@1234
+```
+
+and
+
+Guest
+```
+Email: guest@gbtest.com
+Password: Test@1234
+```
+
 ## In case you find a bug/suggested improvement for Spring GuestBook
 Our issue tracker is available here: https://github.com/ggautam/guestbook/issues
