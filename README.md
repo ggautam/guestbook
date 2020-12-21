@@ -43,7 +43,7 @@ or
 
 run this command in the command line:
 ```
-mvn spring-boot:run
+mvn spring-boot:run -Dspring-boot.run.profiles=local-dev
 ```
 
 ## In case you find a bug/suggested improvement for Spring GuestBook

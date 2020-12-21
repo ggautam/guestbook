@@ -45,7 +45,7 @@ public class AdminServiceImplTest {
 	public void getUserInvitationsTest() throws Exception {
 		List<Object[]> objList = new ArrayList<>();
 		Date currDate = new Date();
-		Object[] objArr = { 1, 1, "test", "tester@test.com", "9876543210", "", "test message", true, currDate };
+		Object[] objArr = { 1, 1, "test", "tester@test.com", "9876543210", null, "test message", true, currDate };
 		objList.add(objArr);
 		Mockito.when(invitationRepository.getUserInvitations()).thenReturn(objList);
 		List<UserInvitation> response = adminServiceImpl.getUserInvitations();
@@ -56,7 +56,7 @@ public class AdminServiceImplTest {
 	public void getUserInvitationsByUserIdTest() throws Exception {
 		List<Object[]> objList = new ArrayList<>();
 		Date currDate = new Date();
-		Object[] objArr = { 1, 1, "test", "tester@test.com", "9876543210", "", "test message", true, currDate };
+		Object[] objArr = { 1, 1, "test", "tester@test.com", "9876543210", null, "test message", true, currDate };
 		objList.add(objArr);
 		Mockito.when(invitationRepository.getUserInvitationsByUserId(Mockito.anyLong())).thenReturn(objList);
 		List<UserInvitation> response = adminServiceImpl.getUserInvitationsByUserId(Mockito.anyLong());
