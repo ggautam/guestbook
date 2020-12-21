@@ -52,13 +52,19 @@ public class InvitationServiceImpl implements InvitationService {
 			InvitationEntity invitationEntity = invitationRepository
 					.getInvitationByInviteIdAndUserId(Long.parseLong(inviteId), Long.parseLong(userId));
 			if (invitationEntity != null) {
-				boolean inviteStatus = false;
-				String message = "Invitation successfully rejected.";
-				if (status.equalsIgnoreCase("approve")) {
-					inviteStatus = true;
-					message = "Invitation successfully approved.";
+				String message = "";
+				if(status.equalsIgnoreCase("delete")) {
+					message = "Entry successfully deleted.";
+					invitationRepository.updateDeactivateInvite(Long.parseLong(inviteId));
+				} else {
+					boolean inviteStatus = false;
+					 message = "Entry successfully rejected.";
+					if (status.equalsIgnoreCase("approve")) {
+						inviteStatus = true;
+						message = "Entry successfully approved.";
+					}
+					invitationRepository.updateInviteConfirmation(Long.parseLong(inviteId), inviteStatus);
 				}
-				invitationRepository.updateInviteConfirmation(Long.parseLong(inviteId), inviteStatus);
 				response.setStatus(Status.SUCCESS);
 				response.setMessage(message);
 			} else {
@@ -67,6 +73,12 @@ public class InvitationServiceImpl implements InvitationService {
 		} else {
 			response.setMessage("Something wents wrong. please refresh and try again!");
 		}
+		return response;
+	}
+
+	@Override
+	public InvitationEntity getInvite(long inviteId) {
+		InvitationEntity response = invitationRepository.findByInviteId(inviteId);
 		return response;
 	}
 

@@ -1,18 +1,12 @@
 package com.guestbook.task.service.impl;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -36,12 +30,6 @@ import com.guestbook.task.dto.GenericResponse.Status;
 public class UserServiceImpl implements UserService {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-
-	@Value("${gb.invitation.card_path}")
-	private String invitationCardPath;
-
-	@Value("${gb.invitation.db_card_path}")
-	private String invitationDbCardPath;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -149,7 +137,7 @@ public class UserServiceImpl implements UserService {
 				 invitationEntity = invitationRepository.getInvitationByInviteIdAndUserId(Long.parseLong(invite.getInviteId()), userEntity.getId());
 				 if(invitationEntity != null) {
 					 isUpdate = true;
-					invitationEntity.setCard(null);
+					invitationEntity.setEventImage(null);
 					invitationEntity.setMessage(null);
 					invitationEntity.setApproved(false);
 				 } else {
@@ -161,22 +149,7 @@ public class UserServiceImpl implements UserService {
 			if (invite.getFile() != null && !invite.getFile().isEmpty()) {
 				try {
 					isValid = true;
-					SimpleDateFormat dirDateTimeFormat = new SimpleDateFormat("yyyy-MM-dd");
-					String directoryPath = invitationCardPath + File.separator + invite.getUserId() + File.separator
-							+ dirDateTimeFormat.format(new Date());
-					byte[] bytes = invite.getFile().getBytes();
-					String filePath = this.createDirectory(directoryPath);
-					SimpleDateFormat dateTimeFormat = new SimpleDateFormat("ddMMyyyy_HHmmss");
-					String currentDate = dateTimeFormat.format(new Date());
-					String fileExtension = FilenameUtils.getExtension(invite.getFile().getOriginalFilename());
-					String filePathName = filePath + File.separator + invite.getUserId() + "-" + currentDate + "."
-							+ fileExtension.toLowerCase();
-					File serverFile = new File(filePathName);
-					BufferedOutputStream mainStream = new BufferedOutputStream(new FileOutputStream(serverFile));
-					mainStream.write(bytes);
-					mainStream.close();
-					String tempFilePathName = filePathName.replace(invitationCardPath, invitationDbCardPath);
-					invitationEntity.setCard(tempFilePathName);
+					invitationEntity.setEventImage(invite.getFile().getBytes());
 				} catch (Exception e) {
 					logger.error("UserServiceImpl|saveInvite|File: {}|Exception: {}",
 							invite.getFile().getOriginalFilename(), e);

@@ -123,7 +123,7 @@ public class AdminControllerTest {
 		List<UserInvitation> userInviteList = new ArrayList<UserInvitation>();
 		UserInvitation userInvite = new UserInvitation();
 		userInvite.setInvite_id(1);
-		userInvite.setMessage("This is test. Please ignore");
+		userInvite.setEvent_message("This is test. Please ignore");
 		userInvite.setEmail("gautam.gaurav@hotmail.com");
 		userInvite.setName("Gaurav");
 		userInvite.setUid(1);

@@ -12,15 +12,20 @@
 				No such entry found. Please contact administrator.
 			</div>
 			<h2>Your entry Lists</h2>
+			<div id="gb-event-div-error" class="alert alert-danger" role="alert"></div>
+			<div id="gb-event-div-success" class="alert alert-success" role="alert"></div>
 			<a href="javascript:void(0);" class="list-group-item list-group-item-action flex-column align-items-start" 
 				th:each="invitation: ${invitationLists}">
 				<div class="d-flex w-100 justify-content-between">
-					<h5 class="mb-1"><button th:data-id="${invitation.inviteId}" type="button" class="redirect-to-modify btn btn-light btn-sm">Modify Entry</button></h5>
+					<h5 class="mb-1">
+						<button th:data-id="${invitation.inviteId}" type="button" class="redirect-to-modify btn btn-light btn-sm">Modify</button>
+						<button th:data-id="${invitation.inviteId}" th:data-uid="${userId}" type="button" class="delete-event btn btn-light btn-sm">Delete</button>
+					</h5>
 					<small th:text="${#dates.format(invitation.createDateTime, 'dd MMM yyyy')}"></small>
 				</div>
 				<p class="mb-1" th:if="${invitation.message == null}">
-					<img th:src="${invitation.card}" alt=""
-						class="invite-image img-thumbnail" data-type="image"
+					<img th:src="@{'data:image/jpg;base64,' + *{T(org.springframework.util.Base64Utils).encodeToString(invitation.eventImage)}}" alt=""
+						class="invite-image img-thumbnail handle-encoding-img" data-type="image"
 						th:data-posted="${#dates.format(invitation.createDateTime, 'dd MMM yyyy hh:mm a')}">
 				</p>
 				<p class="mb-1 invite-text" th:unless="${invitation.message == null}"
@@ -55,6 +60,8 @@
 </div>
 <script type="text/javascript" layout:fragment="pagescript">
 	$('document').ready(function() {
+		$('#gb-event-div-error').hide();
+		$('#gb-event-div-success').hide();
 		$('.invite-image').css({
 			'width' : '200px',
 			'height' : 'auto'
@@ -84,6 +91,34 @@
 		$(".redirect-to-modify").click(function() {
 			var url = location.protocol + "//" + $(location).attr('host') + "/user/modify/invite/" + $(this).data('id');
 			$(location).attr('href', url);
+		});
+		
+		$(".delete-event").click(function() {
+			if (confirm("Are you sure you want to delete?")) {
+				$.get("http://localhost:8099/api/gb/confirm/invite/"
+						+ $(this).data("id") + "/"
+						+ $(this).data("uid") + "/delete",
+				function(data, status) {
+					if(status == "success" && data.status.toLowerCase() == "success") {
+						$('#gb-event-div-success').html("");
+						$('#gb-event-div-success').html(data.message);
+						$('#gb-event-div-error').hide();
+						$("#gb-event-div-success").fadeTo(2000, 500).slideUp(500, function() {
+							$("#gb-event-div-success").slideUp(500);
+							location.reload();
+						});
+					} else {
+						$("#gb-event-div-error").html("");
+						$("#gb-event-div-error").html("Something wents wrong. please refresh and try again!");
+						$('#gb-event-div-success').hide();
+						$("#gb-event-div-error").fadeTo(2000, 500).slideUp(500, function() {
+							$("#gb-event-div-error").slideUp(500);
+							location.reload();
+						});
+					}
+				});
+			}
+			return false;
 		});
 	});
 </script>

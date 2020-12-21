@@ -1,6 +1,7 @@
 package com.guestbook.task.dto;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 
 public class UserInvitation implements Serializable {
@@ -17,9 +18,9 @@ public class UserInvitation implements Serializable {
 
 	private String gsm;
 
-	private String card;
+	private byte[] event_image;
 
-	private String message;
+	private String event_message;
 
 	private boolean is_approved;
 
@@ -65,20 +66,20 @@ public class UserInvitation implements Serializable {
 		this.gsm = gsm;
 	}
 
-	public String getCard() {
-		return card;
+	public byte[] getEvent_image() {
+		return event_image;
 	}
 
-	public void setCard(String card) {
-		this.card = card;
+	public void setEvent_image(byte[] event_image) {
+		this.event_image = event_image;
 	}
 
-	public String getMessage() {
-		return message;
+	public String getEvent_message() {
+		return event_message;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setEvent_message(String event_message) {
+		this.event_message = event_message;
 	}
 
 	public Date getInvite_create_dt() {
@@ -100,8 +101,8 @@ public class UserInvitation implements Serializable {
 	@Override
 	public String toString() {
 		return "UserInvitation [invite_id=" + invite_id + ", uid=" + uid + ", name=" + name + ", email=" + email
-				+ ", gsm=" + gsm + ", card=" + card + ", message=" + message + ", is_approved=" + is_approved
-				+ ", invite_create_dt=" + invite_create_dt + "]";
+				+ ", gsm=" + gsm + ", event_image=" + Arrays.toString(event_image) + ", event_message=" + event_message
+				+ ", is_approved=" + is_approved + ", invite_create_dt=" + invite_create_dt + "]";
 	}
 
 }

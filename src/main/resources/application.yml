@@ -20,12 +20,13 @@ spring:
     generate-ddl: true
   message:
     basename: validation
-gb:
-  invitation:
-    card_path: /var/www/test/guestbook/images/invitations
-    db_card_path: /images/invitations
+  servlet:
+    multipart: 
+      max-file-size: 2MB
+      max-request-size: 2MB
 server:
   port: 8099
   max-http-header-size: 64KB
+  
 logging:
   config: classpath:logback-spring.xml

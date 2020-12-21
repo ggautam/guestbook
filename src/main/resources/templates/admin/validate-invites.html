@@ -30,13 +30,13 @@
 					<td th:text="${gb.name}"></td>
 					<td th:text="${gb.email} + '/' + ${gb.gsm}"></td>
 					<td>
-						<a href="javascript:void(0);" class="invite-image" th:if="${gb.card != null}" 
-							data-type="image" th:data-content="${gb.card}"
-							th:data-posted="${#dates.format(gb.invite_create_dt, 'dd MMM yyyy hh:mm a')}">
+						<a href="javascript:void(0);" class="invite-image" th:if="${gb.event_message == null}" 
+							data-type="image" th:data-posted="${#dates.format(gb.invite_create_dt, 'dd MMM yyyy hh:mm a')}"
+							th:data-content="@{'data:image/jpg;base64,' + *{T(org.springframework.util.Base64Utils).encodeToString(gb.event_image)}}">
 							Click here to view
 						</a>
-						<a href="javascript:void(0);" class="invite-text" th:unless="${gb.card != null}" 
-							data-type="text" th:data-content="${gb.message}"
+						<a href="javascript:void(0);" class="invite-text" th:unless="${gb.event_message == null}" 
+							data-type="text" th:data-content="${gb.event_message}"
 							th:data-posted="${#dates.format(gb.invite_create_dt, 'dd MMM yyyy hh:mm a')}">
 							Click here to view
 						</a>
@@ -45,11 +45,15 @@
 					<td>
 						<button th:if="${gb.is_approved == false}" type="button" class="accept_invite btn btn-light"
 							th:data-id="${gb.invite_id}" th:data-uid="${gb.uid}" data-status="approve">
-							Approve an entry
+							Approve
 						</button>
-						<button th:unless="${gb.is_approved == false}" type="button" class="reject_invite btn btn-secondary"
+						<button th:unless="${gb.is_approved == false}" type="button" class="reject_invite btn btn-secondary mr-3"
 							th:data-id="${gb.invite_id}" th:data-uid="${gb.uid}" data-status="decline">
-							Reject an entry
+							Reject
+						</button>
+						<button type="button" class="delete_invite btn btn-dark"
+							th:data-id="${gb.invite_id}" th:data-uid="${gb.uid}" data-status="delete">
+							Delete
 						</button>
 					</td>
 				</tr>
@@ -99,12 +103,12 @@
 			$('#invitePosted').html("Posted on: " + postedDate);
 			$('#dummyModal').modal('show');
 		});
-		$("#gbdata").on("click", ".accept_invite, .reject_invite", function() {
+		$("#gbdata").on("click", ".accept_invite, .reject_invite, .delete_invite", function() {
 			var status = $(this).data("status");
 			var inviteId = $(this).data("id");
 			var userId = $(this).data("uid");
 			
-		$.get("http://localhost:8099/api/gb/confirm/invite/"
+			$.get("http://localhost:8099/api/gb/confirm/invite/"
 						+ $(this).data("id") + "/"
 						+ $(this).data("uid") + "/"
 						+ $(this).data("status"),

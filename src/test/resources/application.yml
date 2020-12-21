@@ -22,10 +22,6 @@ spring:
         web-allow-others: false
   message:
     basename: validation
-gb:
-  invitation:
-    card_path: /var/www/techm/java/guestbook/src/main/resources/static/images/test
-    db_card_path: /images/test
 server:
     port: 8099
 logging:

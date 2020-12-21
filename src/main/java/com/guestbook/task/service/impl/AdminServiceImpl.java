@@ -88,11 +88,11 @@ public class AdminServiceImpl implements AdminService {
 				ui.setName(String.valueOf(invitation[2]));
 				ui.setEmail(String.valueOf(invitation[3]));
 				ui.setGsm(String.valueOf(invitation[4]));
-				if (invitation[5] != null && StringUtils.isNotBlank(String.valueOf(invitation[5]))) {
-					ui.setCard(String.valueOf(invitation[5]));
+				if (invitation[5] != null) {
+					ui.setEvent_image((byte[])invitation[5]);
 				}
 				if (invitation[6] != null && StringUtils.isNotBlank(String.valueOf(invitation[6]))) {
-					ui.setMessage(String.valueOf(invitation[6]));
+					ui.setEvent_message(String.valueOf(invitation[6]));
 				}
 				ui.setIs_approved(((Boolean) invitation[7]).booleanValue());
 				ui.setInvite_create_dt((Date) invitation[8]);

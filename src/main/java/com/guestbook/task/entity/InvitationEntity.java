@@ -1,6 +1,7 @@
 package com.guestbook.task.entity;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -37,11 +39,15 @@ public class InvitationEntity implements Serializable {
 	@JoinColumn(name = "user_id")
 	public UserEntity userEntity;
 
-	@Column(name = "message", columnDefinition = "varchar(750) default NULL")
+	@Column(name = "event_message", columnDefinition = "varchar(750) default NULL")
 	public String message;
 
-	@Column(name = "card", columnDefinition = "varchar(150) default NULL")
-	public String card;
+	@Lob
+	@Column(name = "event_image", nullable = true, columnDefinition = "mediumblob")
+	private byte[] eventImage;
+
+	@Column(name = "is_active", columnDefinition = "tinyint(1) default 1")
+	public boolean isActive = true;
 
 	@Column(name = "is_approved", columnDefinition = "tinyint(1) default 0")
 	public boolean isApproved = false;
@@ -79,12 +85,12 @@ public class InvitationEntity implements Serializable {
 		this.message = message;
 	}
 
-	public String getCard() {
-		return card;
+	public byte[] getEventImage() {
+		return eventImage;
 	}
 
-	public void setCard(String card) {
-		this.card = card;
+	public void setEventImage(byte[] eventImage) {
+		this.eventImage = eventImage;
 	}
 
 	public Date getCreateDateTime() {
@@ -103,6 +109,14 @@ public class InvitationEntity implements Serializable {
 		this.updateDateTime = updateDateTime;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	public boolean isApproved() {
 		return isApproved;
 	}
@@ -114,8 +128,8 @@ public class InvitationEntity implements Serializable {
 	@Override
 	public String toString() {
 		return "InvitationEntity [inviteId=" + inviteId + ", userEntity=" + userEntity + ", message=" + message
-				+ ", card=" + card + ", isApproved=" + isApproved + ", createDateTime=" + createDateTime
-				+ ", updateDateTime=" + updateDateTime + "]";
+				+ ", eventImage=" + Arrays.toString(eventImage) + ", isActive=" + isActive + ", isApproved="
+				+ isApproved + ", createDateTime=" + createDateTime + ", updateDateTime=" + updateDateTime + "]";
 	}
 
 }
